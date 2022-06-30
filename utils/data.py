@@ -67,9 +67,9 @@ def cutout_download(country, start, end, path, feature = None, freq = 'M', shape
         
         raster = rio.open(shape_filter)
         
-        country_shp = tif_bb_filter(raster,
-                                    gpd.GeoDataFrame(country_shp, columns = ['geometry']),
-                                    output_crs = 'shapes')
+        country_shp = geo.tif_bb_filter(raster,
+                                    	gpd.GeoDataFrame(country_shp, columns = ['geometry']),
+                                    	output_crs = 'shapes')
         
               
     #Loop Over DT Range
