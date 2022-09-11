@@ -9,6 +9,10 @@ import rioxarray as rioxr
 
 import os.path
 
+import requests
+import pickle
+from vt2geojson.tools import vt_bytes_to_geojson
+
 import pandas as pd
 from pandas.tseries.offsets import MonthEnd
 import numpy as np
@@ -19,6 +23,71 @@ from cartopy.crs import PlateCarree as plate
 import cartopy.io.shapereader as shpreader
 import shapely
 
+from skimage import draw, morphology
+from scipy.ndimage import binary_dilation as dilation
+import math
+
+
+def place_turbines(res, landuse_mask, wind_dir, rotor_diam, r_radius_factor, c_radius_factor):    
+    
+    """
+    Algorithm that explicitly places turbines given a boolean landuse availability matrix. 
+    
+    Parameters:
+    ----------
+    res: int
+        resolution of landuse availability matrix in meters
+    landuse_mask : numpy.ndarray
+        initial landuse availability matrix
+    wind_dir : int or numpy.ndarray
+        Either scalar or matrix of scalars that determine the roatation of the turbine elipse
+    rotor_diam : int
+        rotor diameter of turbine to be placed
+    r_radius_factor, c_radius_factor: int
+        Factor that determine the main and secondary radius of the elipse. Get multiplied with rotor diameter
+    
+
+    Returns: 
+    -------
+    mask : numpy.ndarray
+        mask[0] = final landuse availability matrix after completed turbine placement
+        mask[1] = final turbine area matrix after completed turbine placement
+        mask[2] = Matrix that contains the placed turbine centers
+    
+    """ 
+    total_av = landuse_mask
+    
+    if np.isscalar(wind_dir):
+        wind_matrix = np.full(total_av.shape, wind_dir).astype(int)
+    else:
+        wind_matrix = wind_dir
+    
+    turbine_av = ~np.zeros(shape = total_av.shape, dtype = bool) 
+    turbine_spot = np.zeros(shape = total_av.shape, dtype = bool) 
+    
+    mask = np.stack((total_av, turbine_av, turbine_spot))
+    print(mask.dtype)
+    
+    rotor = rotor_diam / res  
+    
+    while mask[0, :, :].max() == 1:
+
+        idx = np.unravel_index(np.argmax(mask[0, :, :], axis=None), mask[0, :, :].shape)
+
+        # Save turbine placement center
+        mask[2, idx[0] , idx[1]] = True
+
+        # Draw elipse based on predominant wind direcition   
+        rr, cc = draw.ellipse(idx[0], idx[1], rotor * r_radius_factor, rotor * c_radius_factor, mask[0, :, :].shape , 
+                              rotation = math.pi/wind_matrix[idx[0], idx[1]])
+
+        # Update total availibility matrix and turbine area matrix
+        mask[0, rr,cc] = False
+        mask[1, rr,cc] = False
+    
+    print(f'Successfully built {mask[2, :, :].sum()} turbines')
+    
+    return mask
 
 def get_grid(da, crs):
 
@@ -148,7 +217,7 @@ def cutout_download(country, start, end, path, feature = None, freq = 'M', shape
             cutout.prepare()
 
 
-def agora_tile_to_dict(wind_dist,z,x,y):
+def agora_tile_to_dict(kind,wind_dist,z,x,y):
     """
     Function that scrapes the agroa-windflächenrechner tileserver for one vectortile.
     
@@ -166,7 +235,7 @@ def agora_tile_to_dict(wind_dist,z,x,y):
         Dictinary entry with x and y parameter plus the GeoJSON information on the vectortile-
     """
     
-    url = "https://wfr.agora-energiewende.de/potential_area_mvt/{}/{}/{}/?setup__wind_distance={}".format(z,x,y,wind_dist)
+    url = "https://wfr.agora-energiewende.de/{}/{}/{}/{}/?setup__wind_distance={}".format(kind,z,x,y,wind_dist)
     
     print(f'Downloading tile {x} / {y}')
     r = requests.get(url)
