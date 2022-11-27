@@ -1,0 +1,39 @@
+#Dictionary for country codes, full string to 3-letter-alpha
+
+Albania: ALB
+Austria: AUT
+Belgium: BEL
+Bosnia and Herzegovina: BIH
+Bulgaria: BGR
+Croatia: HRV
+Cyprus: CYP
+Czech Republic: CZE
+Denmark: DNK
+Estonia: EST
+Finland: FIN
+France: FRA
+Germany: DEU
+Greece: GRC
+Hungary: HUN
+Iceland: ISL
+Ireland: IRL
+Italy: ITA
+Latvia: LVA
+Liechtenstein: LIE
+Lithuania: LTU
+Luxembourg: LUX
+Malta: MLT
+Montenegro: MNE
+Netherlands: NLD
+Norway: NOR
+Poland: POL
+Portugal: PRT
+North Macedonia: MKD
+Romania: ROU
+Serbia: SRB
+Slovakia: SVK
+Slovenia: SVN
+Spain: ESP
+Sweden: SWE
+Switzerland: CHE
+United Kingdom: GBR

@@ -1,0 +1,22 @@
+# gird_code configuration for different scenarios
+# output from gridcodes.ipynb
+
+base: 
+    inclusion: [2110, 2120, 2130, 2210, 2220, 2230, 2310, 2410, 2420, 2430, 2440, 3210, 3220, 3230, 3240, 3310, 3320, 3330]
+    forest: [3130, 3110, 3120]
+    exclusion_fix:
+        road_rail: 
+            codes: 1221
+            distance: 30
+        airpot:
+            codes: [1241, 1242]
+            distance: 3750
+    exclusion_var: 
+        urban_fabric: 
+            codes: [1111, 1121, 1122, 1123, 1130, 1210, 1222, 1230]
+    
+
+            
+        
+        
+        

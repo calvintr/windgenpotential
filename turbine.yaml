@@ -1,0 +1,25 @@
+# Config file that stores the individual rotor diameters per used turbine 
+
+Vestas_V66_1750kW:
+    diameter: 66
+    capacity: 1.75
+
+Vestas_V90_3MW:
+    diameter: 90
+    capacity: 3
+
+Vestas_V112_3MW:
+    diameter: 112
+    capacity: 3
+    
+Enercon_E101_3000kW:
+    diameter: 101
+    capacity: 3
+
+Enercon_E82_3000kW:
+    diameter: 101
+    capacity: 3
+    
+Siemens_SWT_107_3600kW:
+    diameter: 107
+    capacity: 3.6
