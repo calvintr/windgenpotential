@@ -16,6 +16,7 @@ import cartopy.crs as ccrs
 from cartopy.crs import PlateCarree as plate
 import cartopy.io.shapereader as shpreader
 import shapely
+from shapely.geometry import shape, box
 
 from osgeo import gdal
 from osgeo import gdalconst
@@ -137,24 +138,24 @@ def cutout_download(country, start, end, path, feature = None, freq = 'M', shape
     
     #Exclude Canary Islands
     if country == 'Spain':
-        bounds = country.geometry.bounds.values[0]
+        bounds = country_shp.geometry.bounds.values[0]
         bb = box(bounds[0], 34, bounds[2], bounds[3])
         bb = gpd.GeoDataFrame(index=[0], crs='epsg:4326', geometry=[bb])
-        country_shp = gpd.overlay(country, bb, how = 'intersection')
+        country_shp = gpd.overlay(country_shp, bb, how = 'intersection')
 
     # Exclude Madeira
     if country == 'Portugal':
-        bounds = country.geometry.bounds.values[0]
+        bounds = country_shp.geometry.bounds.values[0]
         bb = box(-15, bounds[1], bounds[2], bounds[3])
         bb = gpd.GeoDataFrame(index=[0], crs='epsg:4326', geometry=[bb])
-        country_shp = gpd.overlay(country, bb, how = 'intersection')
+        country_shp = gpd.overlay(country_shp, bb, how = 'intersection')
 
     # Exclude Jan Mayen
     if country == 'Norway':
-        bounds = country.geometry.bounds.values[0]
+        bounds = country_shp.geometry.bounds.values[0]
         bb = box(0, bounds[1], bounds[2], bounds[3])
         bb = gpd.GeoDataFrame(index=[0], crs='epsg:4326', geometry=[bb])
-        country_shp = gpd.overlay(country, bb, how = 'intersection')
+        country_shp = gpd.overlay(country_shp, bb, how = 'intersection')
     
     #Retrieve bounds of country shape + buffer for download
     bounds = country_shp.bounds.values[0]
