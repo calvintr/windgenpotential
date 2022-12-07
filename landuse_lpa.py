@@ -27,7 +27,7 @@ country = gpd.read_file(ROOT + f'data/country_shapes/{cntry}.gpkg').to_crs(3035)
 pa = gpd.read_file(ROOT + f'data/country_pa/{cntry}.gpkg').to_crs(3035)
 
 
-if lpa_share != 0: 
+if (lpa_share != 0) and (pa[pa['IUCN_CAT'] == 'V'].shape[0] != 0): 
     ##Compute total lpa area in country
     exc = ExclusionContainer(res=50)
     exc.add_geometry(pa[pa['IUCN_CAT'] == 'V'], invert = True)
@@ -53,8 +53,10 @@ if lpa_share != 0:
                          codes = 1, crs=3035, buffer=175)
     # epa exclusion
     exc.add_geometry(pa[pa['IUCN_CAT'] != 'V'], invert = True)
-
     lpa = geo.mte(exc, country.geometry, share_kind='normal')
+
+        
+        
     
 ## Compute available shares
 
@@ -70,6 +72,15 @@ kernel_b = np.array([[0, 1, 0],
 if lpa_share == 0:
     None
     
+elif pa[pa['IUCN_CAT'] == 'V'].shape[0] == 0:
+    exc = ExclusionContainer(res=50)
+    lpa = geo.mte(exc, country.geometry, share_kind='normal')
+    zeros = np.zeros(lpa[0].shape).astype(bool)
+    data.write_geotiff(ROOT + f'data/country_share_lpa/{cntry}-{scenario}-{urban_distance}-{slope}-{lpa_share}.tif', 
+                    mask = zeros,
+                    trans = lpa[1],
+                    gdal_write_dtype = gdal.GDT_Byte) 
+
 else:    
     lpa_reduced = np.logical_xor(lpa[0], 
                                  geo.reduce(lpa[0], initial_total=lpa_total, reduction_target=(lpa_share/100), kernel=[kernel_a, kernel_b], sensi_start=7, threshold = 0.0005))
