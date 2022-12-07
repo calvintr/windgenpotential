@@ -75,7 +75,8 @@ def place_n_turbines(res,
                      landuse_av, 
                      wind_dir, 
                      turbine_type, turbine_dict, 
-                     r_radius_factor, c_radius_factor):    
+                     r_radius_factor, c_radius_factor,
+                     return_ellipses = False):    
     
     ## Set-up initial matrices   
     #landuse
@@ -88,7 +89,8 @@ def place_n_turbines(res,
         wind = wind_dir
     
     #turbine elipses
-    #turbine_elipse = ~np.zeros(shape = landuse.shape, dtype = int)
+    if return_ellipses == True:
+        turbine_ellipse = np.zeros(shape = landuse.shape, dtype = int)
     
     #turbine placements
     turbine = np.zeros(shape = landuse.shape, dtype = 'uint8') 
@@ -144,7 +146,9 @@ def place_n_turbines(res,
 
             landuse[rr,cc] = False
             tmp[rr,cc] = False
-            #turbine_elipse[rr,cc] = t
+            
+            if return_ellipses == True:
+                turbine_ellipse[rr,cc] = t
             
             if n == 10000:
                 now = time.time()
@@ -154,7 +158,11 @@ def place_n_turbines(res,
     
     print(f'Successfully built {np.where(turbine>0,1,0).sum()} turbines')
     
-    return [landuse, turbine]#, turbine_elipse] 
+    if return_ellipses == True:
+        return [landuse, turbine, turbine_ellipse] 
+    else:
+        return [landuse, turbine]
+        
 
 
 def merge_cutouts(src):
