@@ -54,6 +54,7 @@ if forest_share != 0:
         forest = f.read(1)
         
     landuse[0] = landuse[0] + forest
+    del forest
     
     
 if lpa_share != 0:
@@ -62,6 +63,7 @@ if lpa_share != 0:
         lpa = f.read(1)
         
     landuse[0] = landuse[0] + lpa
+    del lpa
     
         
 data.write_geotiff(ROOT + f'data/country_landuse_results/{cntry}-{scenario}-{urban_distance}-{slope}-{forest_share}-{lpa_share}.tif', 
