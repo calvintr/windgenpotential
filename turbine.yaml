@@ -23,3 +23,15 @@ Enercon_E82_3000kW:
 Siemens_SWT_107_3600kW:
     diameter: 107
     capacity: 3.6
+
+Vestas_V136_4200kW:
+    diameter: 136
+    capacity: 4.2
+
+W2E_165_5200kW:
+    diameter: 165
+    capacity: 5.2
+
+W2E_151_4800kW:
+    diameter: 151
+    capacity: 4.8
