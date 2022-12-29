@@ -5,7 +5,7 @@ This repository contains the codework of the master thesis project:
 
 All neccesary configuration files, Python scripts and Jupyter Notebooks to replicate calculations and analysis can be found here.
 
-Tied to this repository is the following OwnCloud filestorage:
+Tied to this repository is the following nextcloud filestorage:
 https://tubcloud.tu-berlin.de/s/iCgikHZeQMWpfKW
 
 To avoid path conflicts, download the 'Masterthesis' Project folder. Place the contents ('data', 'results')-folders on the level of this cloned repository. 
@@ -20,23 +20,23 @@ Within *data/input_geodata/*:
 
  - **LUISA Basemap 2018 (50m .tif raster)**
 	 - [LINK](http://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/LUISA/EUROPE/Basemaps/LandUse/2018/LATEST/)
-	 - provided in the OwnCloud filestorage
+	 - provided in the nextcloud filestorage
 - **Corine Land Cover 2018 (100m .tif raster)**
 	- [LINK](https://land.copernicus.eu/pan-european/corine-land-cover/clc2018?tab=download)
 	- save as corine.tif
-	- provided in the OwnCloud filestorage
+	- provided in the nextcloud filestorage
 - **World Database on Protected Areas** for Europe
 	- [LINK](https://www.protectedplanet.net/region/EU)
-	- place full unzipped folder within *input_geodata*
+	- provided in the nextcloud filestorage
 - **EU-DEM Slope Data for Europe**
 	- [LINK](https://ec.europa.eu/eurostat/de/web/gisco/geodata/reference-data/elevation/eu-dem/slope)
-	- place full unzipped folder within *input_geodata*
+	- provided in the nextcloud filestorage
 
 Within *'data/gwa'*:
 
  - **Global Wind Atlas country data**
 	 - [LINK](https://globalwindatlas.info/en)
-	 - provided in the OwnCloud filestorage
+	 - provided in the nextcloud filestorage
 	 - Notebook gwa_bounds_precalc.ipynb provides inshight on how the country shapes were created.
 
 Within *'data/era5'*:
@@ -49,13 +49,13 @@ Within *'data/country_era5_gwa_cf'*:
 
  - Pre calculated correction factors for the ERA5 Data from the GWA data
  - Can be calculated with notebook era5_gwa_cf_prep.ipynb
- - Provided withon OwnCloud filestorage for all countries of the analysis
+ - Provided withon nextcloud filestorage for all countries of the analysis
  
 Within atlite/atlite/resources/windturbine/
 
  - The `atlite` python package is a key element of the analysis.
  - Two turbines are added to the resources of the package
- - The environment files *'W2E_151_4800kW.yml'* and *'W2E_165_5600kW* are placed in the OwnCloud file storage
+ - The environment files *'W2E_151_4800kW.yml'* and *'W2E_165_5200kW* are placed in the nextcloud file storage
  - The new turbine types can either be called via filepath, or placed in the atlite package wind turbine resources
  
 
