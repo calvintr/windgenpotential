@@ -50,6 +50,15 @@ Within *'data/country_era5_gwa_cf'*:
  - Pre calculated correction factors for the ERA5 Data from the GWA data
  - Can be calculated with notebook era5_gwa_cf_prep.ipynb
  - Provided withon OwnCloud filestorage for all countries of the analysis
+ 
+Within atlite/atlite/resources/windturbine/
+
+ - The `atlite` python package is a key element of the analysis.
+ - Two turbines are added to the resources of the package
+ - The environment files *'W2E_151_4800kW.yml'* and *'W2E_165_5600kW* are placed in the OwnCloud file storage
+ - The new turbine types can either be called via filepath, or placed in the atlite package wind turbine resources
+ 
+
 
 ## Calculations
 
